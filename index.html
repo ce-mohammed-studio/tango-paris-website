@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Tango Paris IQ</title>
+  <style>
+    body { font-family: 'Tahoma', sans-serif; background-color: #fdf8f3; text-align: center; direction: rtl; }
+    header {
+      background: url("https://i.ibb.co/8DhN3YSj/header-bg.jpg") no-repeat center center;
+      background-size: cover;
+      color: white;
+      padding: 60px 20px;
+      font-size: 32px;
+      text-shadow: 2px 2px 8px #000;
+    }
+    .product { border: 1px solid #ccc; margin: 10px; padding: 10px; display: inline-block; width: 250px; background: #fff; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    .product img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; }
+    .cart { margin-top: 30px; padding: 15px; border: 2px solid #444; background: #eee; border-radius: 10px; }
+    button { margin-top: 10px; padding: 8px 15px; cursor: pointer; background-color: #b8860b; color: white; border: none; border-radius: 5px; }
+    button:hover { background-color: #000; }
+    select, input { margin: 5px; padding: 5px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🌹 مرحباً بكم في تانغو باريس العراق 🌹</h1>
+</header>
+
+<div id="products">
+  <div class="product">
+    <img src="https://i.ibb.co/KcLR6vwT/divana.jpg" alt="عطر ديفانا">
+    <h3>عطر ديفانا</h3>
+    <p>السعر: 75,000</p>
+    <button onclick="addToCart('عطر ديفانا', 75000)">أضف للسلة</button>
+  </div>
+  <div class="product">
+    <img src="https://i.ibb.co/TDGqzx65/blend.jpg" alt="ليغاسي بليند">
+    <h3>عطر ليغاسي بليند</h3>
+    <p>السعر: 50,000</p>
+    <button onclick="addToCart('عطر ليغاسي بليند', 50000)">أضف للسلة</button>
+  </div>
+  <div class="product">
+    <img src="https://i.ibb.co/r29hf4j3/rouge.jpg" alt="روج تانغو">
+    <h3>عطر روج تانغو</h3>
+    <p>السعر: 65,000</p>
+    <button onclick="addToCart('عطر روج تانغو', 65000)">أضف للسلة</button>
+  </div>
+  <div class="product">
+    <img src="https://i.ibb.co/Nn39tH1Q/bkhour.jpg" alt="بخور ملكي">
+    <h3>بخور ملكي</h3>
+    <p>السعر: 50,000</p>
+    <button onclick="addToCart('بخور ملكي', 50000)">أضف للسلة</button>
+  </div>
+  <div class="product">
+    <img src="https://i.ibb.co/7NGKgzxD/oud.jpg" alt="ليغاسي عود">
+    <h3>عطر ليغاسي عود</h3>
+    <p>السعر: 50,000</p>
+    <button onclick="addToCart('عطر ليغاسي عود', 50000)">أضف للسلة</button>
+  </div>
+  <div class="product">
+    <img src="https://i.ibb.co/sdmYVfB5/miss.jpg" alt="مس تانغو">
+    <h3>عطر مس تانغو</h3>
+    <p>السعر: 50,000</p>
+    <button onclick="addToCart('عطر مس تانغو', 50000)">أضف للسلة</button>
+  </div>
+</div>
+
+<div class="cart">
+  <h2>🛒 سلة المشتريات</h2>
+  <ul id="cart"></ul>
+  <p id="total">المجموع: 0</p>
+</div>
+
+<h3>طرق الدفع</h3>
+<select id="payment">
+  <option>ماستر كارد</option>
+  <option>زين كاش</option>
+  <option>الدفع عند الاستلام</option>
+</select>
+
+<h3>المحافظة</h3>
+<select id="province">
+  <option>بغداد</option>
+  <option>كركوك</option>
+  <option>نينوى</option>
+  <option>البصرة</option>
+  <option>أربيل</option>
+  <option>دهوك</option>
+  <option>السليمانية</option>
+  <option>النجف</option>
+  <option>كربلاء</option>
+  <option>واسط</option>
+  <option>ميسان</option>
+  <option>ذي قار</option>
+  <option>المثنى</option>
+  <option>بابل</option>
+  <option>ديالى</option>
+  <option>صلاح الدين</option>
+  <option>الأنبار</option>
+  <option>القادسية</option>
+</select>
+
+<h3>أقرب نقطة دالة</h3>
+<input type="text" id="address" placeholder="اكتب أقرب نقطة دالة">
+
+<br><br>
+<button onclick="sendOrder()">إتمام الطلب عبر واتساب</button>
+
+<script>
+  let cart = [];
+  function addToCart(name, price) {
+    cart.push({name, price});
+    renderCart();
+  }
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+  }
+  function renderCart() {
+    let cartList = document.getElementById('cart');
+    cartList.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, index) => {
+      total += item.price;
+      cartList.innerHTML += `<li>${item.name} - ${item.price} د.ع 
+        <button onclick="removeFromCart(${index})">حذف</button></li>`;
+    });
+    document.getElementById('total').innerText = "المجموع: " + total + " د.ع";
+  }
+  function sendOrder() {
+    let payment = document.getElementById('payment').value;
+    let province = document.getElementById('province').value;
+    let address = document.getElementById('address').value;
+    let orderText = "طلب جديد من موقع Tango Paris IQ:\n";
+    cart.forEach(item => {
+      orderText += item.name + " - " + item.price + " د.ع\n";
+    });
+    orderText += "المجموع: " + cart.reduce((sum, i) => sum+i.price,0) + " د.ع\n";
+    orderText += "طريقة الدفع: " + payment + "\n";
+    orderText += "المحافظة: " + province + "\n";
+    orderText += "العنوان: " + address;
+    let url = "https://wa.me/9647709340980?text=" + encodeURIComponent(orderText);
+    window.open(url, "_blank");
+  }
+</script>
+
+</body>
+</html>
